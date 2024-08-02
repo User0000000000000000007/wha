@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Details</title>
+<script>
+window.onload = function() {
+  // Get IP address
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ipAddress').innerText = data.ip;
+    })
+    .catch(error => console.error('Error fetching IP address:', error));
+  
+  // Get battery level (only works on devices with Battery API support)
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then(function(battery) {
+      updateBatteryInfo(battery);
+      
+      battery.addEventListener('levelchange', function() {
+        updateBatteryInfo(battery);
+      });
+    });
+  } else {
+    document.getElementById('batteryInfo').innerText = 'Battery API not supported.';
+  }
+  
+  function updateBatteryInfo(battery) {
+    document.getElementById('batteryInfo').innerText = 'তোমার Battery level: ' + (battery.level * 100) + '%';
+  }
+
+  // Get user agent
+  document.getElementById('userAgent').innerText ='তোমার ফোন ডিটেইল : '+ navigator.userAgent;
+
+  // Get screen height and width
+  document.getElementById('screenInfo').innerText = 'তোমার  Screen Width : ' + screen.width + ' pixels  and  Hight : ' + screen.height+ ' pixels';
+}
+</script>
+</head>
+<body>
+  <h1>বোকা এখনই কী বুঝালাম 😑😑😑😑</h1>
+  <p>তোমার IP Address: <span id="ipAddress">Fetching...</span></p>
+  <p id="batteryInfo">তোমার Battery level: Fetching...</p>
+  <p id="userAgent">তোমার ফোন ডিটেইল: Fetching...</p>
+  <p id="screenInfo">তোমার Screen Size: Fetching...</p>
+</body>
+</html>
