@@ -5,90 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stylish Step-by-Step Form</title>
     <style>
+input{
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
         .form-container {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            width: 100%;
-            max-width: 700px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 60px; /* To ensure the footer doesn't overlap */
-        }
-        .sticky-footer {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f1f1f1;
-            padding: 15px;
-            border-top: 1px solid #ddd;
-            font-size: 14px;
-            color: #333;
-            text-align: center;
-            width: 100%;
-            max-width: 700px;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .step {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-        }
-        .step.active {
-            display: block;
-            opacity: 1;
-        }
-        h2 {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        input[type="text"], input[type="number"], input[type="tel"], input[type="file"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 2px solid #ddd;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
             border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus, input[type="number"]:focus, input[type="tel"]:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .step-indicator {
             display: flex;
@@ -96,141 +37,186 @@
             margin-bottom: 20px;
         }
         .indicator {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background-color: #ddd;
+            background: #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 16px;
+            color: #333;
         }
         .indicator.active {
-            background-color: #007bff;
+            background: #00b1f7;
+            color: #fff;
         }
-        #locationWarning {
+        .step {
             display: none;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #ffcccb;
-            border: 1px solid #ff0000;
-            color: #ff0000;
-            border-radius: 8px;
         }
-        #locationSuccess {
-            display: none;
-            margin-bottom: 20px;
+        .step.active {
+            display: block;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #00b1f7;
+            color: #fff;
+            cursor: pointer;
+        }
+        .button:disabled {
+            background: #a5d6a7;
+        }
+        .navigation {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .sticky-footer {
+            position: sticky;
+            top: 0;
+            left: 2.5%;
+            width: 90%;
+            background: #333;
+            color: #fff;
+            text-align: center;
             padding: 10px;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            border-radius: 8px;
+            font-size: 14px;
+        border-radius: 10px;
+        }
+        .sticky-footer a {
+            color: #00b1f7;
+            text-decoration: underline;
+        }
+        #locationWarning, #locationSuccess {
+            display: none;
+            margin-top: 10px;
         }
         #locationDetails {
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-
     <div class="form-container">
-        <div class="step-indicator">
-            <div class="indicator active">1</div>
-            <div class="indicator">2</div>
-            <div class="indicator">3</div>
-            <div class="indicator">4</div>
-            <div class="indicator">5</div>
-            <div class="indicator">6</div>
-            <div class="indicator">7</div>
-            <div class="indicator">8</div>
-            <div class="indicator">9</div>
-            <div class="indicator">10</div>
-            <div class="indicator">11</div>
+        <div class="step-indicator" role="tablist">
+            <!-- Indicators -->
+            <div class="indicator active">১</div>
+            <div class="indicator">২</div>
+            <div class="indicator">৩</div>
+            <div class="indicator">৪</div>
+            <div class="indicator">৫</div>
+            <div class="indicator">৬</div>
+            <div class="indicator">৭</div>
+            <div class="indicator">৮</div>
+            <div class="indicator">৯</div>
+            <div class="indicator">১০</div>
+            <div class="indicator">১১</div>
+            <div class="indicator">১২</div>
+            <div class="indicator">১৩</div>
+            <div class="indicator">১৪</div>
+            <div class="indicator">১৫</div>
         </div>
 
-        <form id="stepForm">
-            <!-- Step 1 -->
-            <div class="step active">
-                <h2>1. নাম</h2>
-                <input type="text" name="name" placeholder="আপনার নাম লিখুন" required>
+        <form id="stepForm" action="https://formspree.io/f/mwpebryl" method="POST" enctype="multipart/form-data">
+            <div class="step active" role="tabpanel">
+                <h2>পুরো নাম</h2>
+                <input type="text" name="name" placeholder="আপনার পুরো নাম লিখুন" required>
+                <span id="nameError" style="color: red; display: none;">দয়া করে দুইটি শব্দে পূর্ণ নাম দিন।</span>
             </div>
 
-            <!-- Step 2 -->
-            <div class="step">
-                <h2>২. বয়স</h2>
-                <input type="number" name="age" placeholder="আপনার বয়স লিখুন" required>
+            <div class="step" role="tabpanel">
+                <h2>বয়স</h2>
+                <input type="number" name="age" placeholder="আপনার বয়স লিখুন" required min="16" max="40">
             </div>
 
-            <!-- Step 3 -->
-            <div class="step">
-                <h2>৩.স্থায়ী ঠিকানা</h2>
+            <div class="step" role="tabpanel">
+                <h2>স্থায়ী ঠিকানা (বর্তমান ঠিকানা নয়)</h2>
                 <input type="text" name="address" placeholder="আপনার স্থায়ী ঠিকানা লিখুন" required>
             </div>
 
-            <!-- Step 4 -->
-            <div class="step">
-                <h2>৪. মোবাইল নাম্বার</h2>
-                <input type="tel" name="mobile" placeholder="আপনার মোবাইল নাম্বার লিখুন" required>
+            <div class="step" role="tabpanel">
+                <h2>মোবাইল নাম্বার</h2>
+                <input type="tel" name="mobile" placeholder="আপনার মোবাইল নাম্বার লিখুন" required pattern="(\+8801[0-9]{8,9}|01[0-9]{8,9})">
+                <span id="mobileError" style="color: red; display: none;">দয়া করে সঠিক মোবাইল নম্বর দিন যা '+8801' অথবা '01' দিয়ে শুরু হয় এবং ১১ থেকে ১২ ডিজিটের মধ্যে হয়।</span>
             </div>
 
-            <!-- Step 5 -->
-            <div class="step">
-                <h2>৫. বাবার নাম্বার + ভোটার আউডি কাডের ছবি</h2>
-                <input type="tel" name="father_mobile" placeholder="বাবার মোবাইল নাম্বার লিখুন" required>
-                <input type="file" name="father_id" accept="image/*" required>
+            <div class="step" role="tabpanel">
+                <h2>বাবার নাম্বার</h2>
+                <input type="tel" name="father_mobile" placeholder="বাবার মোবাইল নাম্বার লিখুন" required pattern="(\+8801[0-9]{8,9}|01[0-9]{8,9})">
+                <h2>ভোটার আউডি কার্ড Number</h2>
+                <input type="number" name="father_id" required>
             </div>
 
-            <!-- Step 6 -->
-            <div class="step">
-                <h2>৬. মায়ের নাম্বার + ভোটার আউডি কাডের ছবি</h2>
-                <input type="tel" name="mother_mobile" placeholder="মায়ের মোবাইল নাম্বার লিখুন" required>
-                <input type="file" name="mother_id" accept="image/*" required>
+            <div class="step" role="tabpanel">
+                <h2>মায়ের নাম্বার</h2>
+                <input type="tel" name="mother_mobile" placeholder="মায়ের মোবাইল নাম্বার লিখুন" required pattern="(\+8801[0-9]{8,9}|01[0-9]{8,9})">
+                <h2>ভোটার আউডি কার্ড Number</h2>
+                <input name="mother_id" required>
             </div>
 
-            <!-- Step 7 -->
-            <div class="step">
-                <h2>৭. দক্ষতা</h2>
-                <input type="text" name="skills" placeholder="যদি কোন দক্ষতা থাকে লিখুন">
+            <div class="step" role="tabpanel">
+                <h2>Any skill?</h2>
+                <input type="text" name="skills" placeholder="যদি কোন skill থাকে লিখুন ex: Graphics design, Web development">
             </div>
 
-            <!-- Step 8 -->
-            <div class="step">
-                <h2>৮. টিম বা নিজের কাজ করানোর মতো দক্ষতা</h2>
+            <div class="step" role="tabpanel">
+                <h2>টিম বা নিজের কাজ করানোর মতো দক্ষতা</h2>
                 <input type="text" name="team_skills" placeholder="যদি টিম বা নিজের কাজ করানোর মতো দক্ষতা থাকে লিখুন">
             </div>
 
-            <!-- Step 9 -->
-            <div class="step">
-                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
+            <div class="step" role="tabpanel">
+                <h2>বাবা-মা ছাড়া অভিভাবক এর ঠিকানা + নম্বর</h2>
+                <input type="text" name="guardian_address" placeholder="অভিভাবক এর ঠিকানা লিখুন" required>
+                <input type="tel" name="guardian_mobile" placeholder="অভিভাবক এর নম্বর লিখুন" required pattern="(\+8801[0-9]{8,9}|01[0-9]{8,9})">
+                <span id="guardianMobileError" style="color: red; display: none;">দয়া করে সঠিক অভিভাবক নম্বর দিন যা '+8801' অথবা '01' দিয়ে শুরু হয় এবং ১১ থেকে ১২ ডিজিটের মধ্যে হয়।</span>
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>আপনার Location</h2>
+                <div id="locationWarning">দয়া করে আপনার ফোনের Location/GPS চালু করুন এবং Location Allow করুন</div>
+                <button type="button" id="startLocation" class="button">Get Location from Google</button>
+                <div id="locationSuccess" style="display: none;">Location Retrieved</div>
+                <div id="locationDetails"></div>
+                <!-- Hidden fields to store location data -->
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>পেশা হিসেবে তুমি কোনটায় আগ্রহী?</h2>
+                <select name="profession" required>
+                    <option value="private_job" selected>প্রাইভেট জব</option>
+                    <option value="government_job">সরকারি জব</option>
+                    <option value="business">ব্যবসা</option>
+                    <option value="others">অন্যান্য</option>
+                </select>
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>তোমার স্বপ্ন কি?</h2>
+                <input type="text" name="dream" placeholder="উদাহরণ: বিশ্বের সবচেয়ে ধনী হওয়া, চারপাশে ভ্রমণ করা" required>
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>তোমার monthly income expectation কত?</h2>
+                <input type="text" name="income_expectation" placeholder="উদাহরণ: ৩০,০০০ টাকা" required>
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>কেন তোমাকে আমার টিম এ নেয়া উচিত?</h2>
+                <input type="text" name="why_join_team" placeholder="নিজের সম্পর্কে সন্তোষজনক কিছু কথা" required>
+            </div>
+
+            <div class="step" role="tabpanel">
+                <h2>যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
                 <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
             </div>
 
-            <!-- Step 10 -->
-            <div class="step">
-                <h2>১০. বাবা-মা ছাড়া অভিভাবক এর ঠিকানা + নম্বর</h2>
-                <input type="text" name="guardian_address" placeholder="অভিভাবক এর ঠিকানা লিখুন" required>
-                <input type="tel" name="guardian_mobile" placeholder="অভিভাবক এর নম্বর লিখুন" required>
-            </div>
-
-            <!-- Location Step -->
-            <div class="step">
-                <h2>১১. আপনার অবস্থান</h2>
-                <div id="locationWarning">দয়া করে আপনার ফোনের Location/GPS চালু করুন এবং Location Allow করুন</div>
-                <button type="button" class="button" id="startLocation">Get Location from google</button>
-                <div id="locationSuccess">Location added, এখন সাবমিট করতে পারেন।</div>
-                <div id="locationDetails"></div>
-                <input type="hidden" id="latitude" name="latitude">
-                <input type="hidden" id="longitude" name="longitude">
-            </div>
-
-            <!-- Navigation Buttons -->
             <div class="navigation">
-                <button type="button" class="button" id="prevBtn">পূর্ববর্তী</button>
-                <button type="button" class="button" id="nextBtn" disabled>পরবর্তী</button>
+                <button type="button" id="prevBtn" class="button">পেছনে</button>
+                <button type="button" id="nextBtn" class="button">এগিয়ে</button>
+                <button type="submit" class="button" style="display: none;">জমা দিন</button>
             </div>
         </form>
     </div>
@@ -240,97 +226,85 @@
     </div>
 
     <script>
-        const form = document.getElementById('stepForm');
-        const steps = Array.from(document.querySelectorAll('.step'));
-        const indicators = Array.from(document.querySelectorAll('.indicator'));
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const startLocationBtn = document.getElementById('startLocation');
-        const locationWarning = document.getElementById('locationWarning');
-        const locationSuccess = document.getElementById('locationSuccess');
-        const locationDetails = document.getElementById('locationDetails');
         let currentStep = 0;
-        let locationObtained = false;
 
-        function showStep(index) {
-            steps.forEach((step, i) => {
-                step.classList.toggle('active', i === index);
+        function showStep(stepIndex) {
+            const steps = document.querySelectorAll('.step');
+            const indicators = document.querySelectorAll('.indicator');
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
             });
-            indicators.forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === index);
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === stepIndex);
             });
-
-            prevBtn.disabled = index === 0;
-            nextBtn.textContent = index === steps.length - 1 ? 'জমা দিন' : 'পরবর্তী';
-            nextBtn.disabled = index === 10 && !locationObtained;
+            document.getElementById('prevBtn').style.display = stepIndex === 0 ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').style.display = stepIndex === steps.length - 1 ? 'none' : 'inline-block';
+            document.querySelector('form button[type="submit"]').style.display = stepIndex === steps.length - 1 ? 'inline-block' : 'none';
         }
 
-        function validateStep(index) {
-            const step = steps[index];
-            const inputs = Array.from(step.querySelectorAll('input[required]'));
-            return inputs.every(input => {
-                if (input.type === 'file') {
-                    return input.files.length > 0;
-                }
-                return input.value.trim() !== '';
-            });
-        }
-
-        function collectLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const { latitude, longitude } = position.coords;
-                    document.getElementById('latitude').value = latitude;
-                    document.getElementById('longitude').value = longitude;
-                    
-                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
-                        .then(response => response.json())
-                        .then(data => {
-                            locationDetails.innerText = `আপনার বর্তমান অবস্থান: ${data.display_name}`;
-                            locationObtained = true;
-                            nextBtn.disabled = false;
-                            locationSuccess.style.display = 'block';
-                            locationWarning.style.display = 'none';
- 
-                        })
-                        .catch(error => {
-                            locationDetails.innerText = 'অবস্থান নাম খুঁজে পাওয়া যায়নি।';
-                        });
-                }, () => {
-                    locationWarning.style.display = 'block';
-                });
-            } else {
-                alert('আপনার ব্রাউজার অবস্থান সেবা সমর্থন করে না।');
-            }
-        }
-
-        nextBtn.addEventListener('click', () => {
+        document.getElementById('nextBtn').addEventListener('click', function() {
             if (validateStep(currentStep)) {
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                } else {
-                    form.submit();
-                }
-            } else {
-               alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
-           }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentStep > 0) {
-                currentStep--;
+                currentStep++;
                 showStep(currentStep);
             }
         });
 
-        startLocationBtn.addEventListener('click', () => {
-            collectLocation();
-            setTimeout("locationWarning.style.display = 'block';",4000);
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            currentStep--;
+            showStep(currentStep);
         });
+
+        function validateStep(stepIndex) {
+            const step = document.querySelectorAll('.step')[stepIndex];
+            const inputs = step.querySelectorAll('input, select');
+            let valid = true;
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    valid = false;
+                    const errorId = input.name + 'Error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) errorElement.style.display = 'block';
+                } else {
+                    const errorId = input.name + 'Error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) errorElement.style.display = 'none';
+                }
+            });
+            return valid;
+        }
+
+        document.getElementById('startLocation').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lon;
+                    document.getElementById('locationSuccess').style.display = 'block';
+                    fetchLocationDetails(lat, lon);
+                }, function() {
+                    alert('Unable to retrieve your location');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        });
+
+        function fetchLocationDetails(lat, lon) {
+            const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name;
+                    document.getElementById('locationDetails').innerHTML = `Latitude: ${lat}, Longitude: ${lon}<br>Address: ${address}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching location details:', error);
+                    document.getElementById('locationDetails').innerHTML = 'Error retrieving location details.';
+                });
+        }
 
         showStep(currentStep);
     </script>
-
 </body>
 </html>
