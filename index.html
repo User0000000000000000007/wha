@@ -305,16 +305,16 @@
         }
 
         nextBtn.addEventListener('click', () => {
-           // if (validateStep(currentStep)) {
+            if (validateStep(currentStep)) {
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     showStep(currentStep);
                 } else {
                     form.submit();
                 }
-            //} else {
-           //     alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
-           // }
+            } else {
+               alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
+           }
         });
 
         prevBtn.addEventListener('click', () => {
