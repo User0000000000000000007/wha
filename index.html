@@ -110,6 +110,29 @@
         .indicator.active {
             background-color: #007bff;
         }
+        #locationWarning {
+            display: none;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #ffcccb;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            border-radius: 8px;
+        }
+        #locationSuccess {
+            display: none;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            border-radius: 8px;
+        }
+        #locationDetails {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -126,50 +149,51 @@
             <div class="indicator">8</div>
             <div class="indicator">9</div>
             <div class="indicator">10</div>
+            <div class="indicator">11</div>
         </div>
 
         <form id="stepForm">
             <!-- Step 1 -->
             <div class="step active">
-                <h2>১. নাম</h2>
+                <h2>১.আপনার নাম</h2>
                 <input type="text" name="name" placeholder="আপনার নাম লিখুন" required>
             </div>
 
             <!-- Step 2 -->
             <div class="step">
-                <h2>২. বয়স</h2>
+                <h2>২.আপনার বয়স</h2>
                 <input type="number" name="age" placeholder="আপনার বয়স লিখুন" required>
             </div>
 
             <!-- Step 3 -->
             <div class="step">
-                <h2>৩. ঠিকানা</h2>
-                <input type="text" name="address" placeholder="আপনার ঠিকানা লিখুন" required>
+                <h2>৩.আপনার স্থায়ী ঠিকানা</h2>
+                <input type="text" name="address" placeholder="আপনার স্থায়ী ঠিকানা লিখুন" required>
             </div>
 
             <!-- Step 4 -->
             <div class="step">
-                <h2>৪. মোবাইল নাম্বার</h2>
+                <h2>৪.আপনার মোবাইল নাম্বার</h2>
                 <input type="tel" name="mobile" placeholder="আপনার মোবাইল নাম্বার লিখুন" required>
             </div>
 
             <!-- Step 5 -->
             <div class="step">
-                <h2>৫. বাবার নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <h2>৫. বাবার মোবাইল নাম্বার + ভোটার আউডি কাডের ছবি</h2>
                 <input type="tel" name="father_mobile" placeholder="বাবার মোবাইল নাম্বার লিখুন" required>
                 <input type="file" name="father_id" accept="image/*" required>
             </div>
 
             <!-- Step 6 -->
             <div class="step">
-                <h2>৬. মায়ের নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <h2>৬. মায়ের মোবাইল নাম্বার + ভোটার আউডি কাডের ছবি</h2>
                 <input type="tel" name="mother_mobile" placeholder="মায়ের মোবাইল নাম্বার লিখুন" required>
                 <input type="file" name="mother_id" accept="image/*" required>
             </div>
 
             <!-- Step 7 -->
             <div class="step">
-                <h2>৭. দক্ষতা</h2>
+                <h2>৭.কোন দক্ষতা</h2>
                 <input type="text" name="skills" placeholder="যদি কোন দক্ষতা থাকে লিখুন">
             </div>
 
@@ -180,20 +204,33 @@
             </div>
 
             <!-- Step 9 -->
-            <div class="step">
-                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
-                <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
-            </div>
-
-            <!-- Step 10 -->
+      
             <div class="step">
                 <h2>১০. বাবা-মা ছাড়া অভিভাবক এর ঠিকানা + নম্বর</h2>
                 <input type="text" name="guardian_address" placeholder="অভিভাবক এর ঠিকানা লিখুন" required>
                 <input type="tel" name="guardian_mobile" placeholder="অভিভাবক এর নম্বর লিখুন" required>
             </div>
 
+            <!-- Step 10 -->
+            <div class="step">
+                <h2>১১. আপনার অবস্থান</h2>
+                <div id="locationWarning">দয়া করে আপনার ফোনের Location/GPS চালু করুন এবং Location Allow করুন</div>
+                <button type="button" class="button" id="startLocation">Get Location</button>
+                <div id="locationSuccess">Location added , এখন সাবমিট করতে পারেন।</div>
+                <div id="locationDetails"></div>
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+            </div>
+            <!-- Step 11 -->
+            <div class="step">
+                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
+                <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
+            </div>
+
+
+            <!-- Navigation Buttons -->
             <div class="navigation">
-                <button type="button" class="button" id="prevBtn" disabled>পূর্ববর্তী</button>
+                <button type="button" class="button" id="prevBtn">পূর্ববর্তী</button>
                 <button type="button" class="button" id="nextBtn">পরবর্তী</button>
             </div>
         </form>
@@ -209,6 +246,10 @@
         const indicators = Array.from(document.querySelectorAll('.indicator'));
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const startLocationBtn = document.getElementById('startLocation');
+        const locationWarning = document.getElementById('locationWarning');
+        const locationSuccess = document.getElementById('locationSuccess');
+        const locationDetails = document.getElementById('locationDetails');
         let currentStep = 0;
 
         function showStep(index) {
@@ -234,6 +275,29 @@
             });
         }
 
+        function collectLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    document.getElementById('latitude').value = latitude;
+                    document.getElementById('longitude').value = longitude;
+                    locationSuccess.style.display = 'block';
+                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+                        .then(response => response.json())
+                        .then(data => {
+                            locationDetails.innerText = `আপনার অবস্থান: ${data.display_name}`;
+                        })
+                        .catch(error => {
+                            locationDetails.innerText = 'অবস্থান নাম খুঁজে পাওয়া যায়নি।';
+                        });
+                }, () => {
+                    locationWarning.style.display = 'block';
+                });
+            } else {
+                alert('আপনার ব্রাউজার অবস্থান সেবা সমর্থন করে না।');
+            }
+        }
+
         nextBtn.addEventListener('click', () => {
             if (validateStep(currentStep)) {
                 if (currentStep < steps.length - 1) {
@@ -252,6 +316,10 @@
                 currentStep--;
                 showStep(currentStep);
             }
+        });
+
+        startLocationBtn.addEventListener('click', () => {
+            collectLocation();
         });
 
         showStep(currentStep);
