@@ -1,49 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Details</title>
-<script>
-window.onload = function() {
-  // Get IP address
-  fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('ipAddress').innerText = data.ip;
-    })
-    .catch(error => console.error('Error fetching IP address:', error));
-  
-  // Get battery level (only works on devices with Battery API support)
-  if ('getBattery' in navigator) {
-    navigator.getBattery().then(function(battery) {
-      updateBatteryInfo(battery);
-      
-      battery.addEventListener('levelchange', function() {
-        updateBatteryInfo(battery);
-      });
-    });
-  } else {
-    document.getElementById('batteryInfo').innerText = 'Battery API not supported.';
-  }
-  
-  function updateBatteryInfo(battery) {
-    document.getElementById('batteryInfo').innerText = 'তোমার Battery level: ' + (battery.level * 100) + '%';
-  }
-
-  // Get user agent
-  document.getElementById('userAgent').innerText ='তোমার ফোন ডিটেইল : '+ navigator.userAgent;
-
-  // Get screen height and width
-  document.getElementById('screenInfo').innerText = 'তোমার  Screen Width : ' + screen.width + ' pixels  and  Hight : ' + screen.height+ ' pixels';
-}
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Step-by-Step Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 60px; /* To ensure the footer doesn't overlap */
+        }
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f1f1f1;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .step {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+        .step.active {
+            display: block;
+            opacity: 1;
+        }
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        input[type="text"], input[type="number"], input[type="tel"], input[type="file"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="tel"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .indicator.active {
+            background-color: #007bff;
+        }
+    </style>
 </head>
 <body>
-  <h1>বোকা এখনই কী বুঝালাম 😑😑😑😑</h1>
-  <p>তোমার IP Address: <span id="ipAddress">Fetching...</span></p>
-  <p id="batteryInfo">তোমার Battery level: Fetching...</p>
-  <p id="userAgent">তোমার ফোন ডিটেইল: Fetching...</p>
-  <p id="screenInfo">তোমার Screen Size: Fetching...</p>
+
+    <div class="form-container">
+        <div class="step-indicator">
+            <div class="indicator active">1</div>
+            <div class="indicator">2</div>
+            <div class="indicator">3</div>
+            <div class="indicator">4</div>
+            <div class="indicator">5</div>
+            <div class="indicator">6</div>
+            <div class="indicator">7</div>
+            <div class="indicator">8</div>
+            <div class="indicator">9</div>
+            <div class="indicator">10</div>
+        </div>
+
+        <form id="stepForm">
+            <!-- Step 1 -->
+            <div class="step active">
+                <h2>১. নাম</h2>
+                <input type="text" name="name" placeholder="আপনার নাম লিখুন" required>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <h2>২. বয়স</h2>
+                <input type="number" name="age" placeholder="আপনার বয়স লিখুন" required>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <h2>৩. ঠিকানা</h2>
+                <input type="text" name="address" placeholder="আপনার ঠিকানা লিখুন" required>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step">
+                <h2>৪. মোবাইল নাম্বার</h2>
+                <input type="tel" name="mobile" placeholder="আপনার মোবাইল নাম্বার লিখুন" required>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <h2>৫. বাবার নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <input type="tel" name="father_mobile" placeholder="বাবার মোবাইল নাম্বার লিখুন" required>
+                <input type="file" name="father_id" accept="image/*" required>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <h2>৬. মায়ের নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <input type="tel" name="mother_mobile" placeholder="মায়ের মোবাইল নাম্বার লিখুন" required>
+                <input type="file" name="mother_id" accept="image/*" required>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step">
+                <h2>৭. দক্ষতা</h2>
+                <input type="text" name="skills" placeholder="যদি কোন দক্ষতা থাকে লিখুন">
+            </div>
+
+            <!-- Step 8 -->
+            <div class="step">
+                <h2>৮. টিম বা নিজের কাজ করানোর মতো দক্ষতা</h2>
+                <input type="text" name="team_skills" placeholder="যদি টিম বা নিজের কাজ করানোর মতো দক্ষতা থাকে লিখুন">
+            </div>
+
+            <!-- Step 9 -->
+            <div class="step">
+                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
+                <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
+            </div>
+
+            <!-- Step 10 -->
+            <div class="step">
+                <h2>১০. বাবা-মা ছাড়া অভিভাবক এর ঠিকানা + নম্বর</h2>
+                <input type="text" name="guardian_address" placeholder="অভিভাবক এর ঠিকানা লিখুন" required>
+                <input type="tel" name="guardian_mobile" placeholder="অভিভাবক এর নম্বর লিখুন" required>
+            </div>
+
+            <div class="navigation">
+                <button type="button" class="button" id="prevBtn" disabled>পূর্ববর্তী</button>
+                <button type="button" class="button" id="nextBtn">পরবর্তী</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="sticky-footer">
+        এগুলো নেওয়ার কারণ: এখানে আমি যখন কাজ দেবো কিছু এডভান্স পেমেন্ট করবো। আর এখন মানুষকে বিশ্বাস করা যায় না। আগে আমি এগুলো প্রতারণার শিকার হয়েছি তাই কিছু ডকুমেন্টস সেফটির জন্য নেবো আশা করি বুঝতে পারবে সবাই।
+    </div>
+
+    <script>
+        const form = document.getElementById('stepForm');
+        const steps = Array.from(document.querySelectorAll('.step'));
+        const indicators = Array.from(document.querySelectorAll('.indicator'));
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentStep = 0;
+
+        function showStep(index) {
+            steps.forEach((step, i) => {
+                step.classList.toggle('active', i === index);
+            });
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === steps.length - 1 ? 'জমা দিন' : 'পরবর্তী';
+        }
+
+        function validateStep(index) {
+            const step = steps[index];
+            const inputs = Array.from(step.querySelectorAll('input[required]'));
+            return inputs.every(input => {
+                if (input.type === 'file') {
+                    return input.files.length > 0;
+                }
+                return input.value.trim() !== '';
+            });
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                } else {
+                    form.submit();
+                }
+            } else {
+                alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        showStep(currentStep);
+    </script>
+
 </body>
 </html>
