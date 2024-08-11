@@ -155,45 +155,45 @@
         <form id="stepForm">
             <!-- Step 1 -->
             <div class="step active">
-                <h2>১.আপনার নাম</h2>
+                <h2>1. নাম</h2>
                 <input type="text" name="name" placeholder="আপনার নাম লিখুন" required>
             </div>
 
             <!-- Step 2 -->
             <div class="step">
-                <h2>২.আপনার বয়স</h2>
+                <h2>২. বয়স</h2>
                 <input type="number" name="age" placeholder="আপনার বয়স লিখুন" required>
             </div>
 
             <!-- Step 3 -->
             <div class="step">
-                <h2>৩.আপনার স্থায়ী ঠিকানা</h2>
+                <h2>৩.স্থায়ী ঠিকানা</h2>
                 <input type="text" name="address" placeholder="আপনার স্থায়ী ঠিকানা লিখুন" required>
             </div>
 
             <!-- Step 4 -->
             <div class="step">
-                <h2>৪.আপনার মোবাইল নাম্বার</h2>
+                <h2>৪. মোবাইল নাম্বার</h2>
                 <input type="tel" name="mobile" placeholder="আপনার মোবাইল নাম্বার লিখুন" required>
             </div>
 
             <!-- Step 5 -->
             <div class="step">
-                <h2>৫. বাবার মোবাইল নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <h2>৫. বাবার নাম্বার + ভোটার আউডি কাডের ছবি</h2>
                 <input type="tel" name="father_mobile" placeholder="বাবার মোবাইল নাম্বার লিখুন" required>
                 <input type="file" name="father_id" accept="image/*" required>
             </div>
 
             <!-- Step 6 -->
             <div class="step">
-                <h2>৬. মায়ের মোবাইল নাম্বার + ভোটার আউডি কাডের ছবি</h2>
+                <h2>৬. মায়ের নাম্বার + ভোটার আউডি কাডের ছবি</h2>
                 <input type="tel" name="mother_mobile" placeholder="মায়ের মোবাইল নাম্বার লিখুন" required>
                 <input type="file" name="mother_id" accept="image/*" required>
             </div>
 
             <!-- Step 7 -->
             <div class="step">
-                <h2>৭.কোন দক্ষতা</h2>
+                <h2>৭. দক্ষতা</h2>
                 <input type="text" name="skills" placeholder="যদি কোন দক্ষতা থাকে লিখুন">
             </div>
 
@@ -204,34 +204,33 @@
             </div>
 
             <!-- Step 9 -->
-      
+            <div class="step">
+                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
+                <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
+            </div>
+
+            <!-- Step 10 -->
             <div class="step">
                 <h2>১০. বাবা-মা ছাড়া অভিভাবক এর ঠিকানা + নম্বর</h2>
                 <input type="text" name="guardian_address" placeholder="অভিভাবক এর ঠিকানা লিখুন" required>
                 <input type="tel" name="guardian_mobile" placeholder="অভিভাবক এর নম্বর লিখুন" required>
             </div>
 
-            <!-- Step 10 -->
+            <!-- Location Step -->
             <div class="step">
                 <h2>১১. আপনার অবস্থান</h2>
                 <div id="locationWarning">দয়া করে আপনার ফোনের Location/GPS চালু করুন এবং Location Allow করুন</div>
-                <button type="button" class="button" id="startLocation">Get Location</button>
-                <div id="locationSuccess">Location added , এখন সাবমিট করতে পারেন।</div>
+                <button type="button" class="button" id="startLocation">Get Location from google</button>
+                <div id="locationSuccess">Location added, এখন সাবমিট করতে পারেন।</div>
                 <div id="locationDetails"></div>
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
             </div>
-            <!-- Step 11 -->
-            <div class="step">
-                <h2>৯. যদি একটু মাএও সন্দেহ থাকে নিজের ওপর</h2>
-                <p>যদি সন্দেহ থাকে যে আপনি ধৈর্য ধরে কাজ করতে পারবেন না, তাহলে আসার প্রয়োজন নেই।</p>
-            </div>
-
 
             <!-- Navigation Buttons -->
             <div class="navigation">
                 <button type="button" class="button" id="prevBtn">পূর্ববর্তী</button>
-                <button type="button" class="button" id="nextBtn">পরবর্তী</button>
+                <button type="button" class="button" id="nextBtn" disabled>পরবর্তী</button>
             </div>
         </form>
     </div>
@@ -251,6 +250,7 @@
         const locationSuccess = document.getElementById('locationSuccess');
         const locationDetails = document.getElementById('locationDetails');
         let currentStep = 0;
+        let locationObtained = false;
 
         function showStep(index) {
             steps.forEach((step, i) => {
@@ -262,6 +262,7 @@
 
             prevBtn.disabled = index === 0;
             nextBtn.textContent = index === steps.length - 1 ? 'জমা দিন' : 'পরবর্তী';
+            nextBtn.disabled = index === 10 && !locationObtained;
         }
 
         function validateStep(index) {
@@ -281,11 +282,16 @@
                     const { latitude, longitude } = position.coords;
                     document.getElementById('latitude').value = latitude;
                     document.getElementById('longitude').value = longitude;
-                    locationSuccess.style.display = 'block';
+                    
                     fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
                         .then(response => response.json())
                         .then(data => {
-                            locationDetails.innerText = `আপনার অবস্থান: ${data.display_name}`;
+                            locationDetails.innerText = `আপনার বর্তমান অবস্থান: ${data.display_name}`;
+                            locationObtained = true;
+                            nextBtn.disabled = false;
+                            locationSuccess.style.display = 'block';
+                            locationWarning.style.display = 'none';
+ 
                         })
                         .catch(error => {
                             locationDetails.innerText = 'অবস্থান নাম খুঁজে পাওয়া যায়নি।';
@@ -299,16 +305,16 @@
         }
 
         nextBtn.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
+           // if (validateStep(currentStep)) {
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     showStep(currentStep);
                 } else {
                     form.submit();
                 }
-            } else {
-                alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
-            }
+            //} else {
+           //     alert('অনুগ্রহ করে সব তথ্য পূরণ করুন।');
+           // }
         });
 
         prevBtn.addEventListener('click', () => {
@@ -320,6 +326,7 @@
 
         startLocationBtn.addEventListener('click', () => {
             collectLocation();
+            setTimeout("locationWarning.style.display = 'block';",4000);
         });
 
         showStep(currentStep);
