@@ -130,6 +130,7 @@ option {
             color: #00b1f7;
             text-decoration: underline;
         }
+        #locationWarning{color: rgb(228, 76, 76);}
         #locationWarning, #locationSuccess {
             
             margin-top: 10px;
@@ -274,7 +275,7 @@ option {
                 <h2>আপনার Location</h2>
                 <div id="locationWarning" style="display: none;">দয়া করে আপনার ফোনের Location/GPS চালু করুন এবং Location Allow করুন</div>
                 <button type="button" id="startLocation" class="button">Get Location from Google</button>
-                <div id="locationSuccess" style="display: none;">Location Retrieved</div>
+                <div id="locationSuccess" style="display: none;">Location Collected</div>
                 <div id="locationDetails"></div>
                 <!-- Hidden fields to store location data -->
                 <input type="hidden" name="latitude" id="latitude" >
@@ -386,6 +387,8 @@ option {
         }
 
         document.getElementById('startLocation').addEventListener('click', function() {
+setTimeout("document.getElementById('locationWarning').style = 'display:block;'",1000);
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     const lat = position.coords.latitude;
